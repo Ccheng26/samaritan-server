@@ -98,13 +98,22 @@ app.post('/save',function(req,res){
   var databody = req.body;
   console.log(req.body)
   var users = req.session.user;
-  db.none("INSERT INTO organizations (orgId, name, address1, address2, city, mission, emailid) VALUES ($1, $2, $3, $4, $5, $6, $7)", [databody.orgId, databody.name, databody.address1, databody.address2, databody.city, databody.mission, users.id]).then("INSERT INTO pledge (organId, donation) VALUES ($8, $9)", [databody.orgId, databody.pledge]);
+  db.tx(function*(t) {
+    let organizations = yield t.one("INSERT INTO organizations (orgId, name, address1, address2, city, mission, emailid) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING", [databody.orgId, databody.name, databody.address1, databody.address2, databody.city, databody.mission, users.id])
+        yield t.none("INSERT INTO pledges (organid, pledge) VALUES ($1, $2)", [databody.orgId, databody.pledge]);
+    }).then(()=>{
+      console.log("yay")
+    }).catch(error =>{
+      console.log(error)
+      db.none("INSERT INTO pledges (organid, pledge) VALUES ($1, $2)", [databody.orgId, databody.pledge]);
+    })
   res.render('index')
 })
 
 app.get('/save', function(req,res){
   db.many("SELECT * FROM organizations").then(function(data){
     var search= {organizations:data};
+    console.log(search)
     res.render('index', search);
   })
 })
@@ -182,8 +191,7 @@ app.post('/search', function(req, res, next) {
   var createOrgAsync = function(organization, index) {
     // console.log(organization)
     var moreinfoUrl = fetch_more_url + organization.organization_id + ".json";
-    console.log("check here")
-    console.log(moreinfoUrl)
+    // console.log(moreinfoUrl)
     return fetchJson(moreinfoUrl).then(function(moreinfo) {
       return {
         orgId: organization.organization_id,

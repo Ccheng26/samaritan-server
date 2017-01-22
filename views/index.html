@@ -36,11 +36,11 @@
     <button id="account" type="button" class="btn btn-success">Go to Account Page</button>
     <p>Use the search function in the top right to find a nonprofit you can help</p>
     <div class="container">
-      <p class="hide" id="nothing">Your pledges:</p>{{#searches}}
+      <p class="hide" id="nothing">Your pledges:</p>{{#organizations}}
       {{name}}
-      <form action="/searches/{{id}}?_method=DELETE" method="post" class ="form-group">
+      <form action="/organizations/{{id}}?_method=DELETE" method="post" class ="form-group">
         <button id="delete" type="submit" >Delete</button>
-      </form>{{/searches}}
+      </form>{{/organizations}}
     </div><br>
     <a href="/logout">Logout!</a>
   </div>
