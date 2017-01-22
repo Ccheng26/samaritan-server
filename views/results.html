@@ -14,10 +14,9 @@
         <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Samaritan</a>
       </div>
       <div class="collapse navbar-collapse" id="navbar">
-        <form class="navbar-form navbar-right">
-          <div class="form-group">
-            <input class="form-control" placeholder="Search" type="text">
-          </div><button class="btn btn-success" type="submit" value="Submit">Search</button>
+        <form class="navbar-form navbar-right" action ="/search" method="POST">
+          <input class="form-control" placeholder="Search" type="text" id="search" name="search">
+          <button class="btn btn-success" type="submit" value="Submit">Search</button>
         </form>
       </div>
     </div>
@@ -29,11 +28,23 @@
 
 <div class= "container">
   {{#search}}
+
     <h3>{{name}} </h1><br>
+    Organization ID: {{orgId}} <br>
     Address: {{address}} {{address2}}
     <br> {{city}}<br>
     Mission: {{mission}} <br>
     <a href ="{{website}}">Website</a>
+    <form class="navbar-form navbar-center" action ="/save" method="POST">
+    <input class="form-control" placeholder="{{orgId}}" type="hidden" value="{{orgId}}" id="" name="orgId">
+    <input class="form-control" placeholder="{{name}}" type="hidden"value="{{name}}" id="name" name="name">
+    <input class="form-control" placeholder="{{address1}}" type="hidden" value="{{address1}}" id="address1" name="address1">
+    <input class="form-control" placeholder="{{address2}}" type="hidden" value="{{address2}}" id="address2" name="address2">
+    <input class="form-control" placeholder="{{city}}" type="hidden" value="{{city}}" id="city" name="city">
+    <input class="form-control" placeholder="{{mission}}" type="hidden" value="{{mission}}" id="mission" name="mission">
+    Donate to this Organization<input class="form-control" placeholder="$" type="text" id="pledge" name="pledge">
+    <button class="btn btn-success" type="submit" value="Submit">Search</button>
+    </form>
   {{/search}}<br>
  </div>
 

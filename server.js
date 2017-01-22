@@ -96,8 +96,9 @@ app.get('/logout',function(req, res){
 })
 app.post('/save',function(req,res){
   var databody = req.body;
+  console.log(req.body)
   var users = req.session.user;
-  db.none("INSERT INTO organizations (name, address, emailid) VALUES ($1, $2, $3)", [databody.name, databody.address, users.id]);
+  db.none("INSERT INTO organizations (orgId, name, address1, address2, city, mission, emailid) VALUES ($1, $2, $3, $4, $5, $6, $7)", [databody.orgId, databody.name, databody.address1, databody.address2, databody.city, databody.mission, users.id]).then("INSERT INTO pledge (organId, donation) VALUES ($8, $9)", [databody.orgId, databody.pledge]);
   res.render('index')
 })
 
@@ -148,12 +149,10 @@ app.put('/user/:id',function(req,res){
 
 // request for search parameter and plug into the api
 app.post('/search', function(req, res, next) {
-  // var search = req.query.search;
   var search = req.body.search
-    // var SearchForm = React.renderToString(SearchFormFactory());
-    // res.render('index', { Content: SearchForm});
   // fetch('http://localhost:9000/search')
   //   .then(function(response) {
+  // checks if sessions are logged in
   if(req.session.user) logged_in = true;
     var logged_in;
     var logs = {
@@ -161,59 +160,56 @@ app.post('/search', function(req, res, next) {
       user: req.session.user,
       search: []
     };
-    const key = process.env.OKEY
-    const key2= process.env.OKEYY
-    const key3= key + " " + key2
-    const key4= `${key} ${key2}`
-    console.log(key4)
-    console.log('search:' + search)
+  const key = process.env.OKEY
+  const key2= process.env.OKEYY
+  const key4= `${key} ${key2}`
+  console.log(key4)
+  console.log('search:' + search)
     // https://quickstartdata.guidestar.org/v1/quickstartsearch
 
   var org_url =`https://Sandboxdata.guidestar.org/v1_1/search.json?q=${search}`
   var fetch_more_url = `https://Sandboxdata.guidestar.org/v1/detail/`
+  // define fetch request here, then return a json response, don't nest a bunch of response.json requests, headers will read twice and fetch will get mad with promise handling
   var fetchJson = function(url) {
     return fetch(url, { headers: { 'Authorization': key4 }})
     .then(function(response) {
         return response.json()
       });
   };
-
+  // handle secondary fetch request here, will pull orgainzation_id from initial fetch and plug into second api, return json again and pull information out
+  //solution credit from Tims Gardner and Fuse forum
+  //https://www.fusetools.com/community/forums/howto_discussions/problem_with_fetch?page=1&highlight=259c897c-6627-4a46-9911-1cfad8cd6071#post-259c897c-6627-4a46-9911-1cfad8cd6071
   var createOrgAsync = function(organization, index) {
-    console.log(organization)
+    // console.log(organization)
     var moreinfoUrl = fetch_more_url + organization.organization_id + ".json";
     console.log("check here")
     console.log(moreinfoUrl)
     return fetchJson(moreinfoUrl).then(function(moreinfo) {
-        return {
-            orgID: organization.organization_id,
-            name: organization.organization_name,
-            address: moreinfo.address_line1,
-            address2: moreinfo.address_line2,
-            city: moreinfo.city + ", " + moreinfo.state + " " + moreinfo.zip,
-            mission: moreinfo.mission,
-            website: moreinfo.website
-            }
-        });
-    }
+      return {
+        orgId: organization.organization_id,
+        name: organization.organization_name,
+        address1: moreinfo.address_line1,
+        address2: moreinfo.address_line2,
+        city: moreinfo.city + ", " + moreinfo.state + " " + moreinfo.zip,
+        mission: moreinfo.mission,
+        website: moreinfo.website
+        }
+      });
+  }
+  // calls initial function, runs with the first api, maps the information in the second function, and returns all information. pushes all the rematining information into an array, then renders
   fetchJson(org_url, { headers: { 'Authorization': key4 }})
     .then(function(responseObject) {
-      console.log("object response is here")
-      console.log(responseObject.hits)
       return responseObject.hits.map(createOrgAsync); })
     .then(function(promises) { return Promise.all(promises); }) // Wait for all orgs to fetch more info
     .then(function(orgs) {
         orgs.map(function(m) {
             logs.search.push(m) // Add to array
         });
-        console.log("check data")
-        console.log(logs)
-        // console.log(logs)
-        // res.render('results', logs)
-     res.render('results',logs)
+      console.log("check data")
+      console.log(logs)
+      res.render('results',logs)
     })
     // .catch(function(e) { console.log('Fetch Error :-S', e); })
-
-
   })
 
 app.get('/search', function(req, res){
