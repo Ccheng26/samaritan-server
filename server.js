@@ -154,6 +154,13 @@ app.post('/search', function(req, res, next) {
     // res.render('index', { Content: SearchForm});
   // fetch('http://localhost:9000/search')
   //   .then(function(response) {
+  if(req.session.user) logged_in = true;
+    var logged_in;
+    var logs = {
+      logged_in: logged_in,
+      user: req.session.user,
+      search: []
+    };
     const key = process.env.OKEY
     const key2= process.env.OKEYY
     const key3= key + " " + key2
@@ -162,75 +169,54 @@ app.post('/search', function(req, res, next) {
     console.log('search:' + search)
     // https://quickstartdata.guidestar.org/v1/quickstartsearch
 
-    fetch(`https://Sandboxdata.guidestar.org/v1_1/search.json?q=${search}`, { headers: { 'Authorization': key4 }
-    }).then(
-        function(response) { // check if fetch request goes through
-          if (response.status !== 200) { // if not successful, error
-          console.log(`Error Status Code: ${response.status}`);}
-          return response.json().then(function(data) {
-          // if response is 200, check data
-          var parse = data.hits
-          //define logs up here. Push data to logs.search
-          var logged_in;
-          if(req.session.user) logged_in = true;
-            var logs = {
-              logged_in: logged_in,
-              user: req.session.user,
-              search: []
-            };
-          parse.forEach(function(e) {
-            var orgId = e.organization_id
-            //https://quickstartdata.guidestar.org/v1/quickstartdetail/
-            fetch(`https://Sandboxdata.guidestar.org/v1/detail/${orgId}.json`, { headers: { 'Authorization': key4 }
-          }).then(function(item) {
-              item.json()
-              .then(function(oData) {
-                console.log(oData)
-                  var arr = []
-                  arr.push(oData)
-                  arr.forEach(function(f) {
-                    var orgName = f.organization_name
-                    var address = `${f.address_line1} ${f.address_line2}`
-                    var address2 = `${f.city}, ${f.state}, ${f.zip}`
-                    var programss = f.programs.forEach(function(g) { arr.push(arr.program = g.programdescription)})
-                  var program = arr.program
-                  //var aka = f.aka_organizaton_name
-                  var mission = f.mission
-                  logs.search.push({
-                      name: orgName,
-                      add1: address,
-                      add2: address2,
-                      mission: mission,
-                      program: program
-                  });
+  var org_url =`https://Sandboxdata.guidestar.org/v1_1/search.json?q=${search}`
+  var fetch_more_url = `https://Sandboxdata.guidestar.org/v1/detail/`
+  var fetchJson = function(url) {
+    return fetch(url, { headers: { 'Authorization': key4 }})
+    .then(function(response) {
+        return response.json()
+      });
+  };
 
-                  console.log("~~~~~~~~~~~~~~~~")
-                  console.log(logs)
-                  res.render('results',logs)
-
-                })
-
-              })
-
-            })
-
-          })
-      //     .catch(function(err) {
-      //   // if error with guidestar fetch request
-      //   console.log('Fetch Error :-S', err); // log the error
-      // })
+  var createOrgAsync = function(organization, index) {
+    console.log(organization)
+    var moreinfoUrl = fetch_more_url + organization.organization_id + ".json";
+    console.log("check here")
+    console.log(moreinfoUrl)
+    return fetchJson(moreinfoUrl).then(function(moreinfo) {
+        return {
+            orgID: organization.organization_id,
+            name: organization.organization_name,
+            address: moreinfo.address_line1,
+            address2: moreinfo.address_line2,
+            city: moreinfo.city + ", " + moreinfo.state + " " + moreinfo.zip,
+            mission: moreinfo.mission,
+            website: moreinfo.website
+            }
+        });
+    }
+  fetchJson(org_url, { headers: { 'Authorization': key4 }})
+    .then(function(responseObject) {
+      console.log("object response is here")
+      console.log(responseObject.hits)
+      return responseObject.hits.map(createOrgAsync); })
+    .then(function(promises) { return Promise.all(promises); }) // Wait for all orgs to fetch more info
+    .then(function(orgs) {
+        orgs.map(function(m) {
+            logs.search.push(m) // Add to array
+        });
+        console.log("check data")
+        console.log(logs)
+        // console.log(logs)
+        // res.render('results', logs)
+     res.render('results',logs)
     })
-          next();
-     //      .catch(function(err) {
-     // // if error with the route fetch request
-     //  console.log('Fetch Error :-S', err);
-     //  })
-    })
-    // next();
+    // .catch(function(e) { console.log('Fetch Error :-S', e); })
+
+
   })
-// })
 
-app.get('/results', function(req, res){
+app.get('/search', function(req, res){
   var user, logged_in;
   if(req.session.user){ // storing info for header.html
     user = req.session.user;
