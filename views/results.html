@@ -35,7 +35,7 @@
     <br> {{city}}<br>
     Mission: {{mission}} <br>
     Programs: {{programs}} <br>
-    <a href ="{{website}}">Website</a>
+    <button onclick="window.open(`http://{{website}}`)">Website</button>
     <form class="form-inline" action ="/save" method="POST">
     <input class="form-control" placeholder="{{orgId}}" type="hidden" value="{{orgId}}" id="" name="orgId">
     <input class="form-control" placeholder="{{name}}" type="hidden"value="{{name}}" id="name" name="name">
