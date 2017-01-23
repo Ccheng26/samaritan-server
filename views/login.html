@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sign Up</title>
+  <title>Samaritan</title>
     <link href="../public/bootstrap.css" rel="stylesheet">
     <link href="../public/style.css" rel="stylesheet">
 </head>
@@ -13,14 +13,18 @@
         <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Samaritan</a>
       </div>
       <div class="collapse navbar-collapse" id="navbar">
-        <form class="navbar-form navbar-right">
-          <div class="form-group">
-            <input class="form-control" placeholder="Search" type="text">
-          </div><button class="btn btn-success" type="submit" value="Submit">Search</button>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li onclick="window.open('https://www.volunteermatch.org/')"> Volunteer Here </li>
+        </ul>
+        <form class="navbar-form navbar-right" action ="/search" method="POST">
+          <input class="form-control" placeholder="Search" type="text" id="search" name="search">
+          <button class="btn btn-success" type="submit" value="Submit">Search</button>
         </form>
       </div>
     </div>
   </nav>
+
   <div class="container">
     {{#users}}
     <h4>Welcome {{name}}!</h4>

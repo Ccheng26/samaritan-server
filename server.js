@@ -99,10 +99,11 @@ app.get('/logout',function(req, res){
 })
 app.post('/save',function(req,res){
   var databody = req.body;
+  console.log(databody)
   var logged_in = true;
   var users = req.session.user;
   db.tx(function*(t) {
-    let organizations = yield t.none("INSERT INTO organizations (orgId, name, address1, address2, city, mission, emailid) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING", [databody.orgId, databody.name, databody.address1, databody.address2, databody.city, databody.mission, users.id])
+    let organizations = yield t.none("INSERT INTO organizations (orgId, name, address1, address2, city, mission, programs, emailid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT DO NOTHING", [databody.orgId, databody.name, databody.address1, databody.address2, databody.city, databody.mission, databody.programs, users.id])
         yield t.none("INSERT INTO pledges (organid, pledge) VALUES ($1, $2)", [databody.orgId, databody.pledge]);
     }).then(()=>{
       console.log("yay")
@@ -127,7 +128,8 @@ app.get('/save', function(req,res){
   }).then(function(data){
     var search= {organizations:data};
     // console.log("check if this is working")
-    // console.log(search)
+    console.log("checkhere")
+    console.log(search)
     res.render('index', search);
   })
 })
@@ -271,8 +273,8 @@ app.post('/search', function(req, res, next) {
         orgs.map(function(m) {
             logs.search.push(m) // Add to array
         });
-      // console.log("check data")
-      console.log(logs)
+      // console.log("fetching")
+      // console.log(logs)
       res.render('results',logs)
     })
     // .catch(function(e) { console.log('Fetch Error :-S', e); })

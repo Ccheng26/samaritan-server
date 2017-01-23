@@ -22,5 +22,5 @@ CREATE TABLE pledges(
 	id SERIAL PRIMARY KEY,
 	organid INTEGER REFERENCES organizations(orgid),
 	pledge NUMERIC,
-	my_date varchar(10) default (CURRENT_DATE)
+	pdate varchar(10) default (CURRENT_DATE)
 );

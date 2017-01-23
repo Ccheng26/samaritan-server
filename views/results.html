@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
+  <meta charset="UTF-8">
+  <title>Samaritan</title>
     <link href="../public/bootstrap.css" rel="stylesheet">
     <link href="../public/style.css" rel="stylesheet">
 </head>
@@ -14,6 +13,10 @@
         <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Samaritan</a>
       </div>
       <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li onclick="window.open('https://www.volunteermatch.org/')"> Volunteer Here </li>
+        </ul>
         <form class="navbar-form navbar-right" action ="/search" method="POST">
           <input class="form-control" placeholder="Search" type="text" id="search" name="search">
           <button class="btn btn-success" type="submit" value="Submit">Search</button>
@@ -21,8 +24,8 @@
       </div>
     </div>
   </nav>
-  <br>
-  <br>
+  <br/>
+  <br/>
   <br>
   <br>
 
@@ -30,8 +33,7 @@
 <div class= "container">
   {{#search}}
     <h3>{{name}} </h3><br>
-    Organization ID: {{orgId}} <br>
-    Address: {{address}} {{address2}}
+    Address: {{address1}} {{address2}}
     <br> {{city}}<br>
     Mission: {{mission}} <br>
     Programs: {{programs}} <br>
@@ -43,11 +45,12 @@
     <input class="form-control" placeholder="{{address2}}" type="hidden" value="{{address2}}" id="address2" name="address2">
     <input class="form-control" placeholder="{{city}}" type="hidden" value="{{city}}" id="city" name="city">
     <input class="form-control" placeholder="{{mission}}" type="hidden" value="{{mission}}" id="mission" name="mission"> <br>
-    Donate to this Organization<input class="form-control" placeholder="$" type="text" id="pledge" name="pledge">
+    <input class="form-control" placeholder="{{programs}}" type="hidden" value="{{programs}}" id="programs" name="programs"> <br>
+    Donate to this Organization  <input class="form-control" placeholder="$" type="text" id="pledge" name="pledge">
 
 
 
-    <button class="btn btn-success" type="submit" id="pledgeAmt" value="Submit">Add</button>
+    <button class="btn btn-success" type="submit" id="pledgeAmt" value="Submit">Pledge</button>
     </form>
   {{/search}}<br>
 
@@ -57,8 +60,7 @@
 <div class= "container">
 {{#search}}
     <h3>{{name}}</h3> <br>
-    Organization ID: {{orgId}} <br>
-    Address: {{address}} {{address2}}
+    Address: {{address1}} {{address2}}
     <br> {{city}}<br>
     Mission: {{mission}} <br>
     Programs: {{programs}}<br>
