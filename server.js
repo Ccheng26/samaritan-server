@@ -126,8 +126,8 @@ app.get('/save', function(req,res){
     })
   }).then(function(data){
     var search= {organizations:data};
-    console.log("check if this is working")
-    console.log(search)
+    // console.log("check if this is working")
+    // console.log(search)
     res.render('index', search);
   })
 })
@@ -224,7 +224,6 @@ app.post('/search', function(req, res, next) {
   const key = process.env.OKEY
   const key2= process.env.OKEYY
   const key4= `${key} ${key2}`
-  console.log(key4)
   console.log('search:' + search)
     // https://quickstartdata.guidestar.org/v1/quickstartsearch
   var org_url =`https://Sandboxdata.guidestar.org/v1_1/search.json?q=${search}`
