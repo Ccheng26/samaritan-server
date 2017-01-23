@@ -26,28 +26,12 @@
 <br/>
 <br/>
 
-{{#logged_in}}
 <div class="container">
-{{#users}}
-<form method="POST" action= "/user/{{id}}?_method=PUT">
+<h1>Sorry, Invalid Username or Password.</h1>
 
-<h3>Welcome {{name}}!</h3>
-  <p>To change your information, and click update.</p>
-  Name: <input class="form-control" name="name" id="name" value="{{name}}"><br>
-  Username: <input class="form-control" name="username" id="username" value="{{username}}">
+<button class="btn btn-success" onclick="location.href='/'">Go Back</button>
+<p>Not a member?
+<button class="btn btn-success" onclick="location.href='/signup'">Sign Up!</button> </p>
 
- <button class="btn btn-success" type="submit" id="update">Update Account</button>
- <button class="btn btn-success" type="submit" id="update"
- onclick="location.href='/'">Back to Main Page</button>
-</form>
-{{/users}}
-</div>
-{{/logged_in}}
-
-{{^logged_in}}
-<p>not logged in</p>
-{{/logged_in}}
-<!--   <script src="../public/jquery.js"></script>
-  <script src="../public/script.js"></script> -->
 </body>
 </html>

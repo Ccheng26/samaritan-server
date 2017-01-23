@@ -23,59 +23,47 @@
   </nav>
 <br/>
 <br/>
-  <!-- <div class="jumbotron"> -->
-    <div class="container">
-      <h1>Welcome Samaritan. How will you do good today?</h1>
-    </div>
-  <!-- </div> -->
+
   {{#logged_in}}
   <div class="container">
-    {{#users}}
-    <h4>Welcome {{name}}!</h4>
-    {{/users}}
-    <button id="account" type="button" class="btn btn-success">Go to Account Page</button>
-    <p>Use the search function in the top right to find a nonprofit you can help</p>
-    <div class="container">
-      <p class="hide" id="nothing">Your pledges:</p>{{#organizations}}
-      {{name}}
-      <form action="/organizations/{{id}}?_method=DELETE" method="post" class ="form-group">
-        <button id="delete" type="submit" >Delete</button>
-      </form>{{/organizations}}
-    </div><br>
-    <a href="/logout">Logout!</a>
+{{#users}}
+<h1>Welcome {{name}}.</h1>
+{{/users}}
+    <h2>Use the search function in the top right to find a nonprofit you can help</h2>
   </div>
+
   <div class="container">
-    <div class="results">
-      <div class="profile">
-        <p class="list" id="org">Organizations:</p>
-        <hr>
-        <p class="list" id="donations">Donations:</p>
-        <hr>
-        <button id="save" type="button" class="btn btn-success">Save Value</button>
-        <button id="home" type="button" class="btn btn-success">My Account</button>
-      </div>
-    </div>
-  </div>{{/logged_in}} {{^logged_in}} <!-- not logged in -->
+    <h3 class="list" id="org">Organization List:</h3>
+    {{#search}}
+      <h4><a href ="/organizations/{{orgid}}">{{name}}</a></h4>
+      <h5>{{mission}}</h5>
+      <hr>
+    {{/search}}
+    <button id="home" type="button" class="btn btn-success"onclick="location.href='/logout'">Log Out</button>
+    <button id="account" type="button" class="btn btn-success" onClick=window.location.replace("/user")>Go to Account Page</button>
+  </div>
+  {{/logged_in}}
+
+  {{^logged_in}} <!-- not logged in -->
   <div class="container">
-  <form action="/login" method="post" class="form-group">
+  <h1>Welcome Samaritan. How will you do good today?</h1>
+  <form action="/login" method="post" class="form-inline">
     <div class="container">
       <div class="results">
         <div class="inputBox">
           <p>Email</p>
-          <div>
-            <input class="form-control" id="inputEmail" name="email" placeholder="Email" type="text">
-          </div>
+          <input class="form-control" id="inputEmail" name="email" placeholder="Email" type="text">
+          <br><br>
           <p>Password</p>
-          <div>
-            <input class="form-control" id="inputPassword" name="password" placeholder="Password" type="password">
-          </div><button class="btn btn-success" type="submit">Login!</button><br>
-          <p>You can still use our search function without logging in. But for optimal viewing, please sign in.</p>
-          <p>Not a member? <a class = "btn btn-success" href="/signup">Sign Up!</a></p>
+          <input class="form-control" id="inputPassword" name="password" placeholder="Password" type="password">
+         <button class="btn btn-success" type="submit">Login!</button><br><br>
+            <h4>You can still use our search function without logging in. To keep track of your donations, please sign in.</h4>
+            <h4>Not a member? <a class = "btn btn-success" href="/signup">Sign Up!</a></h4>
         </div>{{/logged_in}}
-      </div><!-- <script src="../public/jquery.js"></script>
-  <script src="../public/config.js"></script>
-  <script src="../public/script.js"></script> -->
-    </div>
+      </div>
   </form>
+  </div>
 </body>
+<!--  <script src="../public/jquery.js"></script>
+  <script src="../public/script.js"></script> -->
 </html>

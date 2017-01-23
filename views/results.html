@@ -8,7 +8,7 @@
     <link href="../public/bootstrap.css" rel="stylesheet">
 </head>
 <body>
- <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Samaritan</a>
@@ -26,29 +26,48 @@
   <br>
   <br>
 
+{{#logged_in}}
 <div class= "container">
   {{#search}}
-
-    <h3>{{name}} </h1><br>
+    <h3>{{name}} </h3><br>
     Organization ID: {{orgId}} <br>
     Address: {{address}} {{address2}}
     <br> {{city}}<br>
     Mission: {{mission}} <br>
+    Programs: {{programs}} <br>
     <a href ="{{website}}">Website</a>
-    <form class="navbar-form navbar-center" action ="/save" method="POST">
+    <form class="form-inline" action ="/save" method="POST">
     <input class="form-control" placeholder="{{orgId}}" type="hidden" value="{{orgId}}" id="" name="orgId">
     <input class="form-control" placeholder="{{name}}" type="hidden"value="{{name}}" id="name" name="name">
     <input class="form-control" placeholder="{{address1}}" type="hidden" value="{{address1}}" id="address1" name="address1">
     <input class="form-control" placeholder="{{address2}}" type="hidden" value="{{address2}}" id="address2" name="address2">
     <input class="form-control" placeholder="{{city}}" type="hidden" value="{{city}}" id="city" name="city">
-    <input class="form-control" placeholder="{{mission}}" type="hidden" value="{{mission}}" id="mission" name="mission">
+    <input class="form-control" placeholder="{{mission}}" type="hidden" value="{{mission}}" id="mission" name="mission"> <br>
     Donate to this Organization<input class="form-control" placeholder="$" type="text" id="pledge" name="pledge">
-    <button class="btn btn-success" type="submit" value="Submit">Add</button>
+
+
+
+    <button class="btn btn-success" type="submit" id="pledgeAmt" value="Submit">Add</button>
     </form>
   {{/search}}<br>
+
  </div>
-
-
+{{/logged_in}}
+{{^logged_in}}
+<div class= "container">
+{{#search}}
+    <h3>{{name}}</h3> <br>
+    Organization ID: {{orgId}} <br>
+    Address: {{address}} {{address2}}
+    <br> {{city}}<br>
+    Mission: {{mission}} <br>
+    Programs: {{programs}}<br>
+    <button onclick="window.open(`http://{{website}}`)">Website</button>
+{{/search}}
+</div>
+{{/logged_in}}
 </body>
 
+<!--  <script src="../public/jquery.js"></script>
+  <script src="../public/script.js"></script> -->
 </html>

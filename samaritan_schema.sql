@@ -15,10 +15,12 @@ CREATE TABLE organizations(
 	address1 VARCHAR(100),
 	address2 VARCHAR(100),
 	city VARCHAR(100),
-	mission TEXT
+	mission TEXT,
+	programs TEXT
 );
 CREATE TABLE pledges(
 	id SERIAL PRIMARY KEY,
 	organid INTEGER REFERENCES organizations(orgid),
-	pledge NUMERIC
+	pledge NUMERIC,
+	my_date varchar(10) default (CURRENT_DATE)
 );
