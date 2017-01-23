@@ -147,7 +147,6 @@ app.get('/home', function(req,res){
     console.log(donationList)
   res.render('index', donationList);
   }).catch(function(){
-    console.log("err")
     res.redirect('/')
   })
 })
@@ -160,6 +159,11 @@ app.get('/organizations/:id',function(req,res){
     var address = show.address1
     var city = show.city
     var programs = show.programs
+    var pledges = {
+        orgname: name,
+        orgadd1: address,
+        orgadd2: city,
+        programs: programs}
     db.many("SELECT * FROM pledges WHERE organid=$1", [id])
     .then(function(p){
       var pledges = {
@@ -204,9 +208,8 @@ app.put('/user/:id',function(req,res){
   db.none("UPDATE users SET name=$1, username =$2 WHERE id = $3",
     [user.name, user.username, id]);
   res.redirect('/home')
-  .catch(function(err){
-  console.log(err)
-})})
+
+})
 
 // request for search parameter and plug into the api
 app.post('/search', function(req, res, next) {
