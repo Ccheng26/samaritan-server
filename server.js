@@ -128,14 +128,14 @@ app.get('/save', function(req,res){
   }).then(function(data){
     var search= {organizations:data};
     // console.log("check if this is working")
-    console.log("checkhere")
-    console.log(search)
+    // console.log("checkhere")
+    // console.log(search)
     res.render('index', search);
   })
 })
 
 app.get('/home', function(req,res){
-  console.log('see saved donations')
+  // console.log('see saved donations')
   var logged_in = true;
   db.many("SELECT * FROM organizations WHERE organizations.emailid = $1", [req.session.user.id])
   .then(function(data){
@@ -146,7 +146,7 @@ app.get('/home', function(req,res){
       "logged_in": logged_in,
       "search": data
     }
-    console.log(donationList)
+    // console.log(donationList)
   res.render('index', donationList);
   }).catch(function(){
     res.redirect('/')

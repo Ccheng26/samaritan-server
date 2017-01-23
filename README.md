@@ -41,6 +41,7 @@ node server
 + Ended up with only a Node App
 
 **Unsolved Problems/Major Hurdles**
+
 Approaching Back and Front End compilation was a major time drainer. See To Do List.
 
 **To Do**:

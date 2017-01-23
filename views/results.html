@@ -15,7 +15,7 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
-          <li onclick="window.open('https://www.volunteermatch.org/')"> Volunteer Here </li>
+          <li onclick="window.open('https://www.volunteermatch.org/')"><a>Volunteer Here</a></li>
         </ul>
         <form class="navbar-form navbar-right" action ="/search" method="POST">
           <input class="form-control" placeholder="Search" type="text" id="search" name="search">
@@ -37,7 +37,7 @@
     <br> {{city}}<br>
     Mission: {{mission}} <br>
     Programs: {{programs}} <br>
-    <button onclick="window.open(`http://{{website}}`)">Website</button>
+    <button class="btn btn-success" onclick="window.open(`http://{{website}}`)">Website</button>
     <form class="form-inline" action ="/save" method="POST">
     <input class="form-control" placeholder="{{orgId}}" type="hidden" value="{{orgId}}" id="" name="orgId">
     <input class="form-control" placeholder="{{name}}" type="hidden"value="{{name}}" id="name" name="name">
@@ -64,7 +64,7 @@
     <br> {{city}}<br>
     Mission: {{mission}} <br>
     Programs: {{programs}}<br>
-    <button onclick="window.open(`http://{{website}}`)">Website</button>
+    <button class="btn btn-success" onclick="window.open(`http://{{website}}`)">Website</button>
 {{/search}}
 </div>
 {{/logged_in}}
