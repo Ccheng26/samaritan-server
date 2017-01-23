@@ -40,9 +40,12 @@ node server
  + Spent a lot more time than I should've figuring out how to render data only through the backend
 + Ended up with only a Node App
 
-**To Do **
-+ Connect this application to React.js
+**Unsolved Problems/Major Hurdles**
+Approaching Back and Front End compilation was a major time drainer. See To Do List.
+
+**To Do**:
 + Implement a volunteering API
++ Connect this application to React.js
 + Debug the table errors
 
 Special Thanks to the Developers at Guidestar, the Stack Overflow community.
