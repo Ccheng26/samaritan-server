@@ -155,7 +155,7 @@ app.get('/home', function(req,res){
 
 app.get('/organizations/:id',function(req,res){
   var id = req.params.id
-  db.one("SELECT * from organizations WHERE orgid =$1",[id]).then(function(show){
+  db.one("SELECT * from organizations WHERE orgid = $1",[id]).then(function(show){
     console.log(show)
     var name = show.name
     var address = show.address1
@@ -166,7 +166,8 @@ app.get('/organizations/:id',function(req,res){
         orgadd1: address,
         orgadd2: city,
         programs: programs}
-    db.many("SELECT * FROM pledges WHERE organid=$1", [id])
+        console.log(pledges)
+    db.many("SELECT * FROM pledges WHERE organid = $1", [id])
     .then(function(p){
       var pledges = {
         orgname: name,
@@ -175,7 +176,7 @@ app.get('/organizations/:id',function(req,res){
         programs: programs,
         donation: p
       }
-
+      console.log(pledges)
       res.render("orgdetail",pledges)
     }
   ).catch(function(f){
