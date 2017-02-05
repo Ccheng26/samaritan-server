@@ -7,14 +7,17 @@
     <link href="../public/style.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+
+
+  {{#logged_in}}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Samaritan</a>
       </div>
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
+          <li class="active"><a onclick="location.href='/home'">Home</a></li>
           <li onclick="window.open('https://www.volunteermatch.org/')"><a>Volunteer Here</a></li>
         </ul>
         <form class="navbar-form navbar-right" action ="/search" method="POST">
@@ -26,8 +29,6 @@
   </nav>
 <br/>
 <br/>
-
-  {{#logged_in}}
   <div class="container">
 {{#users}}
 <h1>Welcome {{name}}.</h1>
@@ -48,6 +49,25 @@
   {{/logged_in}}
 
   {{^logged_in}} <!-- not logged in -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="/">Samaritan</a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a onclick="location.href='/'">Home</a></li>
+          <li onclick="window.open('https://www.volunteermatch.org/')"><a>Volunteer Here</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" action ="/search" method="POST">
+          <input class="form-control" placeholder="Search" type="text" id="search" name="search">
+          <button class="btn btn-success" type="submit" value="Submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+<br/>
+<br/>
   <div class="container">
   <h1>Welcome Samaritan. How will you do good today?</h1>
   <form action="/login" method="post" class="form-inline">

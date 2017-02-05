@@ -7,6 +7,7 @@
     <link href="../public/style.css" rel="stylesheet">
 </head>
 <body>
+    {{#users}}
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -14,7 +15,7 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
+          <li class="active"><a onclick="location.href='/home'">Home</a></li>
           <li onclick="window.open('https://www.volunteermatch.org/')"> Volunteer Here </li>
         </ul>
         <form class="navbar-form navbar-right" action ="/search" method="POST">
@@ -27,7 +28,7 @@
 <br />
 <br />
   <div class="container">
-    {{#users}}
+
     <h4>Welcome {{name}}!</h4>
     {{/users}}
     <button id="account" type="button" class="btn btn-success">Go to Account Page</button>

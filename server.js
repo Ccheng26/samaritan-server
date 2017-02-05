@@ -4,7 +4,7 @@ const express = require('express'),
   app = express(),
   PORT = process.env.PORT || 9000,
   pgp = require('pg-promise')(),
-  db = pgp(process.env.DATABASE_URL || 'postgres://student_03@localhost:5432/samaritan'),
+  db = pgp(process.env.DATABASE_URL || 'postgres://postgres@localhost:5432/samaritan'),
   session = require('express-session'),
   bcrypt = require('bcryptjs'),
   fetch = require('node-fetch'),
@@ -48,7 +48,7 @@ var something = []
 app.get("/", function(req,res){
   var logged_in;
   var email;
-
+  console.log("displaying saved")
   if(req.session.user){
     logged_in = true;
     email = req.session.user.email;
@@ -146,7 +146,9 @@ app.get('/home', function(req,res){
       "logged_in": logged_in,
       "search": data
     }
-    // console.log(donationList)
+    console.log(donationList)
+    console.log("what does this show")
+
   res.render('index', donationList);
   }).catch(function(){
     res.redirect('/')
